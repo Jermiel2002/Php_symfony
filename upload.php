@@ -10,6 +10,28 @@
     require_once(__DIR__ . '/partials/header.php');
 ?>
 
+<?php
+    $file = './files/data.csv';
+    $row = 0;
+    if (($handle = fopen($file,"r")) !== FALSE) 
+    {
+        while (($data = fgetcsv($handle, 1000,",")) !== FALSE) //fgetcsv permet de recuperer une ligne en definissant chaque colonne par ","
+        {
+            if($row > 0)
+            {
+                $num = count($data);
+                echo "<p>Ligne $row: <br/></p>\n";
+                for ($c = 0; $c < $num; $c++)
+                {
+                    echo $data[$c] . "<br/>\n";
+                }
+            }
+            $row++;
+        }
+        fclose($handle);
+    }
+?>
+
 <!-- Header -->
 <?php
     if (isset($_POST["submit"])) {
