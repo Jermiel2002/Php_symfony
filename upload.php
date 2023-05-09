@@ -10,22 +10,23 @@
     require_once(__DIR__ . '/partials/header.php');
 ?>
 
-<?php
-    file_put_contents('./files/demo.txt', 'Bonjour Jonh ! comment tu vas ?');
-    echo file_get_contents('./files/demo.txt');
-    //ou on peut encore faire
-    $fichier = fopen('./files/demo2.txt', 'c+b'); //c pour que le fichier soit créer s'il n'existe pas et b pour créer le fichier en mode binaire
-    fwrite($fichier,'Fichier n°2 !');
-
-    echo "<br/><br/>";
-?>
-
-
 <!-- Header -->
 <?php
-    if (isset($_POST["submit"])) {
-        var_dump($_FILES);
-        die();
+/*on va apprendre à uploader un ficier sur notre serveur
+lorsque l'utilisateur telecharge un fichier, il est dans un dossier temporaire, ensuite il faut le bouger du temporaire, vers le fichier à coté de notre site pour pouvoir le récupérer
+dossier de destination des fichiers sur le serveur
+dans le upload on crée le nom du fichier, on concatène le dossier et avec le md5(permet de générer une empreinte de 32 caractères
+completement aléatoire);; le uniqid permet de créer un id unique; on faait ça pour éviter l'écrasemnt d'un fichier par un autre
+le basename permet de récupérer le nom final du chemin du fichier.
+ensuite on recupere le chemin du fichier temporaire et le mettre dans le chemin defini dans le if*/ 
+    if (isset($_POST["submit"])) 
+    {
+        $filesDir = './files/'; 
+        $uploadfile = $filesDir . md5(uniqid()) . basename($_FILES['file']['name']);
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile))
+        {
+            echo "le fichier est valide.";
+        }
     }
 ?>
 
