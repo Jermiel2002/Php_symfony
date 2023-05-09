@@ -12,9 +12,16 @@
 
 <!-- Header -->
 <?php
-    if (isset($_POST["submit"])) {
-        var_dump($_GET);
-        die();
+    if (isset($_POST["submit"]))
+    {
+        $handler = fopen('files/users.csv', 'a'); // le a pour eviter de supp ce qui y avait deja dans le fichier
+        fputcsv($handler, [
+            $_POST["email"],
+            $_POST["password"],
+            $_POST["firstname"],
+            $_POST["lastname"]
+        ]);
+        fclose($handler);
     }
 ?>
 
